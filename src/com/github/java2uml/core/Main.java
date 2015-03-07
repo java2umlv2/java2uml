@@ -47,7 +47,7 @@ public class Main {
      */
     public static void main(String[] args) throws Exception {
         final int FIRST_OPTIONAL_ARGUMENT = 2; // Порядковый номер первого необязательно параметра.
-
+        args = new String[]{"java", "/Users/nadcukandrej/javaProjects/java2/myfinances", "sequence_diagram"};
         // Должны быть заданы хотя бы два параметра: тип файлов для преобразования и
         // путь к исходным файлам.
         if (args.length < 2) {

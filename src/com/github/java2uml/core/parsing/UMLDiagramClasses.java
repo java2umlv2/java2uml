@@ -97,7 +97,7 @@ public class UMLDiagramClasses {
                 if (n.getName().toLowerCase().contains("exception"))
                     CreateUmlCode.source.append(" << (E,yellow) >> ");
                 // Определяем точку входа
-                if (n.getMembers().toString().contains("public static void main(String[] args)") && !n.getName().equals("UMLDiagramClasses"))
+                if (n.getMembers().toString().contains("public static void main(String[] args)") && isMain(n))
                     CreateUmlCode.source.append(" << (C,yellow) start >> ");
 
                 if (n.getMembers().size() > 0) {
@@ -161,7 +161,7 @@ public class UMLDiagramClasses {
      * @return
      * @author - Nadchuk Andrei navikom11@mail.ru
      */
-    private boolean availability(String clazz) {
+    public static boolean availability(String clazz) {
         for (String item : CreateUmlCode.classes) {
             if (clazz.equals(item)) {
                 return true;
@@ -623,6 +623,20 @@ public class UMLDiagramClasses {
 
         return (cu.getPackage() == null ? "" : cu.getPackage().getName().toString() + ".");
 
+    }
+
+    public static boolean isMain(ClassOrInterfaceDeclaration clazz){
+        final boolean[] isMain = {false};
+        new VoidVisitorAdapter(){
+            @Override
+            public void visit(MethodDeclaration n, Object arg) {
+                if(n.getName().equalsIgnoreCase("main") && n.getModifiers() == (Modifier.PUBLIC | Modifier.STATIC) && n.getType().toString().equals("void"))
+                    isMain[0] = true;
+
+            }
+        }.visit(clazz, null);
+
+        return isMain[0];
     }
 
 }

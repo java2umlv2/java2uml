@@ -21,9 +21,11 @@ public class CreateUmlCode {
     public static StringBuilder aggregation;
     public static StringBuilder composition;
     public static StringBuilder association;
+    public static StringBuilder sequence;
     private static String fileUMLDiagramClasses;
     public static final String UML_TEMPLATE = "uml_templates";
     public static List<String> classes;
+    public static List<File> classesWithAbsolutePath;
     private static String projectName;
     private int typeConnections;
     private static int level = 0;
@@ -37,18 +39,25 @@ public class CreateUmlCode {
 
     public void init(String path) throws Exception {
         classes = new ArrayList<String>();
+        classesWithAbsolutePath = new ArrayList<>();
         createListClasses(new File(path));
         source = new StringBuilder();
         connections = new StringBuilder();
         aggregation = new StringBuilder();
         composition = new StringBuilder();
         association = new StringBuilder();
+        sequence = new StringBuilder();
         // текст в формате plantuml - начало сборки
         source.append("@startuml\n");
-        
 
         // разбираем анализируемый проект
-        readPackage(new File(path));
+        if(Options.isClassDiagram())
+            readPackage(new File(path));
+        else if(Options.isSequenceDiagram()){
+            new CreateSequenceUmlCode(this);
+
+        }
+
         // добавляем опции исходя из Options
         neededTypeConnections();
         // конец сборки
@@ -109,12 +118,8 @@ public class CreateUmlCode {
         /**
          *   Начало анализа кода
          */
-        if(Options.isClassDiagram())
-            new UMLDiagramClasses(cu);
-        else if(Options.isSequenceDiagram()){
-            // todo создать генератор диаграммы последовательностей
-            
-        }
+        new UMLDiagramClasses(cu);
+
     }
 
     public static String setModifier(int mod) {
@@ -244,14 +249,15 @@ public class CreateUmlCode {
                 if (folder[i].isDirectory()) {
                     createListClasses(folder[i]);
                 } else if (folder[i].toString().toLowerCase().endsWith(".java")) {
-                    classes.add(getNameClass(folder[i].toString()));
+                        classes.add(getNameClass(folder[i].toString()));
+                        classesWithAbsolutePath.add(folder[i]);
                 }
             }
         }else 
             throw new CreateUmlCodeException("Folder is not exist");
     }
 
-    private String getNameClass(String file){
+    public String getNameClass(String file){
         String[] subString = file.split(Pattern.quote(System.getProperty("file.separator")));
         String className = subString.length > 1 ? subString[subString.length - 1].replace(".java", "") : null;
         return className;
@@ -267,6 +273,7 @@ public class CreateUmlCode {
             source.append("title " + Options.getHeader() + "\n");
 
         source.append(connections);
+        source.append(sequence);
         if(Options.isShowAggregation())
             source.append(aggregation);
         if(Options.isShowComposition())
