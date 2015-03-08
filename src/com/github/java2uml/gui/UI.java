@@ -194,7 +194,7 @@ public class UI implements ExceptionListener {
 
         ButtonGroup typeOfDiagramOptionsButtonGroup = new ButtonGroup();
         classesDiagramOption = new JRadioButton(localeLabels.getString("classDiagramLabel"));
-        classesDiagramOption.setEnabled(false);
+//        classesDiagramOption.setEnabled(false);
         classesDiagramOption.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -202,7 +202,7 @@ public class UI implements ExceptionListener {
             }
         });
         sequenceDiagramOption = new JRadioButton(localeLabels.getString("sequenceDiagramLabel"));
-        sequenceDiagramOption.setEnabled(false);
+//        sequenceDiagramOption.setEnabled(false);
         sequenceDiagramOption.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -268,11 +268,8 @@ public class UI implements ExceptionListener {
 
         classDiagramCheckboxItem.setState(true);
         verticalDirectionCheckboxItem.setState(true);
-        classDiagramCheckboxItem.setEnabled(false);
         openOnPlantUMLServer.setEnabled(false);
-        sequenceDiagramCheckboxItem.setEnabled(false);
         showHeader.setEnabled(false);
-        classDiagramCheckboxItem.setState(true);
         reflectionCheckboxItem.setState(true);
         showAggregation.setState(true);
         showAssociation.setState(true);
