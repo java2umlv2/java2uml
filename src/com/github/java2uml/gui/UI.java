@@ -104,6 +104,7 @@ public class UI implements ExceptionListener {
             showComposition, showAggregation, russianLangItem, englishLangItem, svgExtensionItem, pngExtensionItem, enableDiagramItem;
     private About about;
     private QuickHelp quickHelp;
+    private QuickHelpRu quickHelpRu;
     private static Help helpWindow;
     private static HelpRu helpRu;
     private JTextArea generatedCode;
@@ -449,16 +450,30 @@ public class UI implements ExceptionListener {
         quickHelpItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (quickHelp != null) {
-                    if (!quickHelp.isVisible()) {
-                        quickHelp.setVisible(true);
+                if (englishLangItem.getState()) {
+                    if (quickHelp != null) {
+                        if (!quickHelp.isVisible()) {
+                            quickHelp.setVisible(true);
+                        } else {
+                            quickHelp.toFront();
+                            quickHelp.repaint();
+                        }
                     } else {
-                        quickHelp.toFront();
-                        quickHelp.repaint();
+                        quickHelp = QuickHelp.getInstance();
+                        quickHelp.setVisible(true);
                     }
                 } else {
-                    quickHelp = QuickHelp.getInstance();
-                    quickHelp.setVisible(true);
+                    if (quickHelpRu != null) {
+                        if (!quickHelpRu.isVisible()) {
+                            quickHelpRu.setVisible(true);
+                        } else {
+                            quickHelpRu.toFront();
+                            quickHelpRu.repaint();
+                        }
+                    } else {
+                        quickHelpRu = QuickHelpRu.getInstance();
+                        quickHelpRu.setVisible(true);
+                    }
                 }
             }
         });
