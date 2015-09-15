@@ -63,9 +63,11 @@ public class Help extends JFrame implements ActionListener {
         editorPane.addHyperlinkListener(new HyperlinkListener() {
             @Override
             public void hyperlinkUpdate(HyperlinkEvent e) {
+
                 if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
                     String currentLink = e.getURL().toString();
                     try {
+                        initArrayOfHostsToOpenInBrowser();
                         if (!hostsToOpenInBrowser.contains(currentLink)) {
                             editorPane.setPage(e.getURL());
                         } else {

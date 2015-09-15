@@ -104,6 +104,7 @@ public class UI implements ExceptionListener {
             showComposition, showAggregation, russianLangItem, englishLangItem, svgExtensionItem, pngExtensionItem, enableDiagramItem;
     private About about;
     private QuickHelp quickHelp;
+    private QuickHelpRu quickHelpRu;
     private static Help helpWindow;
     private static HelpRu helpRu;
     private JTextArea generatedCode;
@@ -194,7 +195,7 @@ public class UI implements ExceptionListener {
 
         ButtonGroup typeOfDiagramOptionsButtonGroup = new ButtonGroup();
         classesDiagramOption = new JRadioButton(localeLabels.getString("classDiagramLabel"));
-        classesDiagramOption.setEnabled(false);
+//        classesDiagramOption.setEnabled(false);
         classesDiagramOption.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -202,7 +203,7 @@ public class UI implements ExceptionListener {
             }
         });
         sequenceDiagramOption = new JRadioButton(localeLabels.getString("sequenceDiagramLabel"));
-        sequenceDiagramOption.setEnabled(false);
+//        sequenceDiagramOption.setEnabled(false);
         sequenceDiagramOption.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -268,11 +269,8 @@ public class UI implements ExceptionListener {
 
         classDiagramCheckboxItem.setState(true);
         verticalDirectionCheckboxItem.setState(true);
-        classDiagramCheckboxItem.setEnabled(false);
         openOnPlantUMLServer.setEnabled(false);
-        sequenceDiagramCheckboxItem.setEnabled(false);
         showHeader.setEnabled(false);
-        classDiagramCheckboxItem.setState(true);
         reflectionCheckboxItem.setState(true);
         showAggregation.setState(true);
         showAssociation.setState(true);
@@ -452,16 +450,30 @@ public class UI implements ExceptionListener {
         quickHelpItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (quickHelp != null) {
-                    if (!quickHelp.isVisible()) {
-                        quickHelp.setVisible(true);
+                if (englishLangItem.getState()) {
+                    if (quickHelp != null) {
+                        if (!quickHelp.isVisible()) {
+                            quickHelp.setVisible(true);
+                        } else {
+                            quickHelp.toFront();
+                            quickHelp.repaint();
+                        }
                     } else {
-                        quickHelp.toFront();
-                        quickHelp.repaint();
+                        quickHelp = QuickHelp.getInstance();
+                        quickHelp.setVisible(true);
                     }
                 } else {
-                    quickHelp = QuickHelp.getInstance();
-                    quickHelp.setVisible(true);
+                    if (quickHelpRu != null) {
+                        if (!quickHelpRu.isVisible()) {
+                            quickHelpRu.setVisible(true);
+                        } else {
+                            quickHelpRu.toFront();
+                            quickHelpRu.repaint();
+                        }
+                    } else {
+                        quickHelpRu = QuickHelpRu.getInstance();
+                        quickHelpRu.setVisible(true);
+                    }
                 }
             }
         });

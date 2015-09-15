@@ -67,6 +67,7 @@ public class HelpRu extends JFrame implements ActionListener {
                 if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
                     String currentLink = e.getURL().toString();
                     try {
+                        initArrayOfHostsToOpenInBrowser();
                         if (!hostsToOpenInBrowser.contains(currentLink)) {
                             editorPane.setPage(e.getURL());
                         } else {

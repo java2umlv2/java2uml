@@ -47,7 +47,6 @@ public class Main {
      */
     public static void main(String[] args) throws Exception {
         final int FIRST_OPTIONAL_ARGUMENT = 2; // Порядковый номер первого необязательно параметра.
-
         // Должны быть заданы хотя бы два параметра: тип файлов для преобразования и
         // путь к исходным файлам.
         if (args.length < 2) {
